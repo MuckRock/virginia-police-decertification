@@ -1,0 +1,80 @@
+---
+title: "Findings"
+execute:
+  output: false
+  echo: false
+format:
+  html:
+    code-tools: true
+    theme: cosmo
+    toc: true
+---
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggplot2)
+library(plotly)
+library(DT)
+```
+
+
+```{r}
+present <- read.csv(here("data", "processed","clean_for_analysis", "present.csv")) %>% 
+  select(-X, -...1)
+prior <- read.csv(here("data", "processed","clean_for_analysis", "prior.csv")) %>% 
+  select(-X, -...1)
+reinstated <- read.csv(here("data", "processed","clean_for_analysis", "reinstated.csv")) %>% 
+  select(-X, -...1)
+certified_directory <- read.csv(here("data", "processed","clean_for_analysis", "certified_directory.csv")) %>% 
+  select(-X)
+```
+
+# Agencies distribution 
+```{r}
+present_agency_totals <- present %>% 
+  group_by(agency_name) %>% 
+  summarize(num = n())
+
+pres_hist <- ggplot(present_agency_totals, aes(x=num)) +
+  geom_histogram()
+
+ggplotly(pres_hist)
+  
+```
+```{r}
+#| output: true
+ggplotly(pres_hist)
+```
+
+```{r}
+present_agency_totals_cert <- present_agency_totals %>%
+  left_join(certified_directory, join_by(agency_name == place_of_employment)) %>% 
+  select(agency_name, num_decerts = num, certified_officers_jailors) %>% 
+  mutate(percentile_decert = round(rank(num_decerts, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
+  mutate(size_rank = rank(-certified_officers_jailors, ties.method = "min")) %>%
+    mutate(percentile_size = round(rank(certified_officers_jailors, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
+  mutate(decert_rank = rank(-num_decerts, ties.method = "min"))
+
+# what to do about NAs?
+  
+```
+
+```{r}
+#| output: true
+datatable(present_agency_totals_cert, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+
+                            options = list(
+                                paging = TRUE,
+                                searching = TRUE,
+                                fixedColumns = TRUE,
+                                autoWidth = TRUE,
+                                ordering = TRUE,
+                                dom = 'tB',
+                                buttons = c('copy', 'csv', 'excel')
+                            ))
+
+  
+
+
+```
