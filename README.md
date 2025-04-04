@@ -12,7 +12,7 @@ In February 2024, [DCJS provided a similar list to OpenOversightVA](https://open
 
 MuckRock and the Virginia Center for Investigative Journalism obtained the most recent list of decertification list through a public records request to the Henrico County Commonwealth Attorney, filed on TK date.  The newsrooms also obtained data on [the number of certified officers as of TK date for each agency through a request to DCJS](https://www.muckrock.com/foi/virginia-128/licensed-officers-and-total-employees-180642/), as well as [a list of all agencies and their physical addresses](https://www.muckrock.com/foi/virginia-128/criminal-justice-agency-directory-180620/). 
 
-These three datasets are the basis of this analysis and can be found in `data/raw`. The datasets are the cleaned and prepared for analysis in `etl` and analyzed in the `analysis`. 
+These three datasets are the basis of this analysis and can be found in `data/raw`. The datasets are the cleaned and prepared for analysis in `etl` and analyzed in `analysis`. 
 
 ## General Documentation 
 ### What information do the records provide?
