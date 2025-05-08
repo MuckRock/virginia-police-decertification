@@ -1,5 +1,7 @@
 ---
-title: "Preliminary Findings"
+title: "Findings and data bulletproofing"
+author: "Dillon Bergin"
+date: "5/7/2025"
 execute:
   output: false
   echo: false
@@ -21,95 +23,201 @@ library(lubridate)
 
 
 ```{r}
-present <- read.csv(here("data", "processed","clean_for_analysis", "present.csv")) %>% 
+present <- read.csv(here("data", "processed","analysis", "present.csv")) %>% 
   select(-X, -...1)
-prior <- read.csv(here("data", "processed","clean_for_analysis", "prior.csv")) %>% 
+prior <- read.csv(here("data", "processed","analysis", "prior.csv")) %>% 
   select(-X, -...1)
-reinstated <- read.csv(here("data", "processed","clean_for_analysis", "reinstated.csv")) %>% 
+reinstated <- read.csv(here("data", "processed","analysis", "reinstated.csv")) %>% 
   select(-X, -...1)
-certified_directory <- read.csv(here("data", "processed","clean_for_analysis", "certified_directory.csv")) %>% 
+certified_directory <- read.csv(here("data", "processed","analysis", "certified_directory.csv")) %>% 
   select(-X)
 ```
 
 # How have decertifications changed over time?
-When the law changed in 2021, decertifications more than doubled. Since 2021, there have been about 80 officers decertified each year. Before the law changed, the highest number of officers decertified in any year was 17. 
+## Decertifications increased after law change
+### Sentences in the article 
+> A 2020 state law aimed at addressing integrity issues has led to years of increased decertifications of law enforcement across Virginia, according to data obtained by the Virginia Center for Investigative Journalism and MuckRock.
 
-::: {.callout-caution}
-## Data warnings
-We are missing the last quarter of 2024, so you can see it looks like a dip from previous years and is likely not. One agency incorrectly dated a decertification to 2029, so we'll have to reach out to get the correct date. 
+- Visualized by the chart below
 
-:::
+> When the law took effect in March 2021, decertifications more than doubled from the previous year. Since 2021, there have been about 75 officers decertified each year. Before the law changed, the highest number of officers decertified in any year was 17. 
+
+- "... more than doubled from the previous year." ---> $17*2 = 34$ compared to 50 in 2021
+- "... about 75 officers decertified each year." ---> $(50+81+94+81)/4 = 76.5$
+
 
 ```{r}
+# Dataframe that sums the total of number of decertifications for each year since law change
 by_year_present <- present %>% 
   mutate(year = year(fixed_date)) %>% 
   group_by(year) %>% 
-  summarize(num = n()) 
+  summarize(num = n()) %>% 
+  # Remove two cases, one from 2025 since we don't have enough data and one from 2029 that is data error
+  filter(!year %in% c("2025", "2029"))
 
+# Calculate the average num of decertifications yearly since law change: 76.5
+mean_present <- mean(by_year_present$num)
+
+
+# Dataframe that sums the total of number of decertifications for each year before law change
 by_year_prior <- prior %>% 
   mutate(year = year(fixed_date)) %>% 
   group_by(year) %>% 
   summarize(num = n()) 
 
+# Dataframe of all years of certifications for comparison
 merge_years <- rbind(by_year_present, by_year_prior) %>% 
-  arrange(desc(year))
+  # Fill in zero for years not included in data: 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2011
+  complete(year = seq(min(year), max(year), by = 1),fill = list(num =0)) %>% 
+  arrange(desc(year)) 
 
-write.csv(merge_years, "../data/processed/for_datawrapper_vis/all_years.csv")
+  
+
+
+# Export data to csv for Datawrapper chart
+write.csv(merge_years, "../data/processed/vis/all_years.csv")
 
 ```
- 
-<iframe title="Under new law, more officers are being decertified across Virginia " aria-label="Bar Chart" id="datawrapper-chart-xH2TV" src="https://datawrapper.dwcdn.net/xH2TV/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="524" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
+### Visualization in the article
+<iframe title="2020 law created a big shift in Virginia's police decertifications" aria-label="Bar Chart" id="datawrapper-chart-xH2TV" src="https://datawrapper.dwcdn.net/xH2TV/4/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="765" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
 </script>
 
-```{r}
-# By agency and year 
-# Not any trends of note 
-agency_year_present <- present %>% 
-  mutate(year = year(fixed_date)) %>% 
-  group_by(agency_name, year) %>% 
-  summarize(num = n()) %>% 
-  pivot_wider(names_from = year, values_from = num)
-  
-
-agency_year_prior <- prior %>% 
-  mutate(year = year(fixed_date)) %>% 
-  group_by(agency_name, year) %>% 
-  summarize(num = n()) %>% 
-  pivot_wider(names_from = year, values_from = num)
-  
-
-```
 
 # What agencies decertify the most officers? 
+## Most agencies haven't decertified an officer since law change
+### Sentences in the article 
+
+> While the 2020 law has led to an increase in decertifications across the state, the way agencies have implemented the law varies. Most agencies haven't decertified a single officer since the law changed, and of those that have, many have decertified just one officer. 
+
+- Trend visualized in chart below (this chart will not be included in article)
+- "Most agencies..." ---> in data table below $398/512 = 0.77$ or about 77%
+- "... many have decertified just one officer" in data table below ---> 56
+
 
 ```{r}
+# Dataframe of total number of decertifications at each agency that has decertified an officer since 2021
+present_agency_totals <- present %>% 
+  group_by(agency_name) %>% 
+  summarize(decerts = n())
+
+# Dataframe of total number of decertifications at each agency that has decertified an officer before 2021
+prior_agency_totals <- prior %>% 
+  group_by(agency_name) %>% 
+  summarize(num = n())
+
+# Dataframe of agencies that haven't decertified an officer since 2021
+# Joins dataset of all law enforcement agencies with dataset of present decertifications 
 no_decertifications <- certified_directory %>% 
   anti_join(present, join_by(place_of_employment == agency_name)) %>% 
   select(agency_name = place_of_employment) %>% 
   mutate(decerts = 0)
 
-present_agency_totals <- present %>% 
-  group_by(agency_name) %>% 
-  summarize(decerts = n())
-
-prior_agency_totals <- prior %>% 
-  group_by(agency_name) %>% 
-  summarize(num = n())
-
-
-
-# Double check why we end up with 513 agencies instead of 512
+# Dataframe of all agencies that have and haven't had a decertification since 2021
 all_agencies <- rbind(no_decertifications, present_agency_totals)
+  
+```
+
+## Histogram of agencies and decertifications 
+```{r}
+#| output: true
+ggplot(all_agencies, aes(x=decerts)) +
+  geom_histogram(fill = "#fa8c00", boundary = 0) +
+  labs(x = "Number of decertifications",
+    y = "Number of agencies") +
+  theme_classic()
+
 
   
 ```
 
-## Most agencies haven't issued a decertification since the law change. 
+```{r}
+# Dataframe of number of decertifications grouped by how many agencies decertified that many officers
+decert_bins <- all_agencies %>% 
+  group_by(decerts) %>% 
+  rename(num_decerts = decerts) %>% 
+  summarize(num_agencies = n())
 
-About a fourth of the state's 513 law enforcement agencies have decertified an officer since 2021. 
+
+# Checking which agencies aren't in directory but are in decertifications 
+# We have 513 agencies total instead of 512 because one decertification seems to combine two agencies 
+additional_agencies <- all_agencies %>% 
+  select(agency_name) %>% 
+  anti_join(certified_directory, join_by(agency_name == place_of_employment))
+  
+```
+
+## Data table of number of agencies to number decertifications 
 ```{r}
 #| output: true
-datatable(all_agencies, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+datatable(decert_bins, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+          rownames = FALSE, 
+
+                            options = list(
+                                paging = TRUE,
+                                searching = TRUE,
+                                fixedColumns = TRUE,
+                                autoWidth = TRUE,
+                                ordering = TRUE,
+                                dom = 'tB',
+                                buttons = c('copy', 'csv', 'excel')
+                            ))
+
+
+```
+## Some agencies have decertified a handful of officers or more
+### Setences in the article 
+> Five agencies have decertified more than ten officers: Virginia State Police, Chesapeake Police Department, Henrico County Sheriff's Office, Fairfax County Police Department and Fairfax County Sheriff's Office. 
+
+- See data table below: Virginia State Police (16), Chesapeake (16), Henrico County SO (10), Fairfax County PD (10), Fairfax County SO (10)
+
+> The Virginia State Police employs more officers than any other agency and has decertified more officers than any other agency. 
+
+- - See data table below: Virginia State Police certified officers or jailors = 1,788
+
+> But the Chesapeake Police Department is a fifth the size of the State Police and has decertified as many officers as the State Police since the law changed.
+
+- See data table below: "... a fifth the size ... " ---> $331/1788 = 0.185$ or about 20%, a fifth
+
+> Meanwhile, two of the state's largest agencies, Loudoun County Sheriff's Office and Virginia Beach Police Department, have just two decertifications each. Neither agency responded to emailed questions about decertifications at their agencies. 
+
+- See data table below: "... just two decertifications each..."
+
+```{r}
+# Dataframe that combines number of decertifications with number of certified officers and compares rank and percentile rank, for agencies that have decertified an officer
+present_agency_totals_cert <- present_agency_totals %>%
+  left_join(certified_directory, join_by(agency_name == place_of_employment)) %>% 
+  select(agency_name, num_decerts = decerts, certified_officers_jailors) %>% 
+  mutate(percentile_decert = round(rank(num_decerts, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
+  mutate(size_rank = rank(-certified_officers_jailors, ties.method = "min")) %>%
+    mutate(percentile_size = round(rank(certified_officers_jailors, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
+  mutate(decert_rank = rank(-num_decerts, ties.method = "min"))
+
+
+# Dataframe that combines decertifications with certified officers and compares rank, for all 513 agences, not just those that have decertified 
+all_agencies_totals <- all_agencies %>%
+  left_join(certified_directory, join_by(agency_name == place_of_employment)) %>% 
+  select(agency_name, num_decerts = decerts, certified_officers_jailors) %>% 
+  mutate(size_rank = rank(-certified_officers_jailors, ties.method = "min")) %>%
+  mutate(decert_rank = rank(-num_decerts, ties.method = "min"))
+
+
+# Dataframe of top ten agencies have decertified and officer for Datawrapper chart
+five_or_over <- present_agency_totals_cert %>% 
+  filter(num_decerts >= 5)
+
+#top_ten_agencies <- present_agency_totals_cert %>% 
+  #slice_max(order_by = num_decerts, n = 10)
+  
+# Writing data to csv for Datawrapper
+write.csv(five_or_over, "../data/processed/vis/agencies_five_or_over.csv")
+
+
+```
+
+## Data table of number of decertifications and number of certified officers in each agency
+```{r}
+#| output: true
+datatable(all_agencies_totals, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
           rownames = FALSE, 
 
                             options = list(
@@ -126,90 +234,66 @@ datatable(all_agencies, filter = 'top', class = 'cell-border stripe order-column
 ```
 
 
-## For the agencies that have decertified an officer, most have decertified just a few at most
-Many have decertified just one officer
+> The Henrico County Sheriff's Department, which employs about 80 fewer officers than the Chesapeake Police Department, has decertified 10 officers since the new law went into effect. Before 2021, the Henrico County Sheriff's Office had not decertified a single officer.
 
+- See data table above: "... about 80 fewer officers ... " ---> $331 - 248 = 83$ 
+- See data table below: "Before 2021 ... not decertified a single officer."
 
+```{r}
+# Dataframe of decertifications by agency prior to 2021
+by_agency_prior <- prior %>% 
+  group_by(agency_name) %>% 
+  summarize(num = n()) 
 
+```
+
+## Data table of agencies that decertfied an officer before law changed in 2021
 ```{r}
 #| output: true
-ggplot(present_agency_totals, aes(x=decerts)) +
-  geom_histogram(fill = "#fa8c00", binwidth = 1, boundary = 0) +
-  labs(x = "Number of decertifications",
-    y = "Number of agencies") +
-  theme_classic()
+datatable(by_agency_prior, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+          rownames = FALSE, 
 
+                            options = list(
+                                paging = TRUE,
+                                searching = TRUE,
+                                fixedColumns = TRUE,
+                                autoWidth = TRUE,
+                                ordering = TRUE,
+                                dom = 'tB',
+                                buttons = c('copy', 'csv', 'excel')
+                            ))
 
-  
-```
-## Some agencies do stand out though
-Only three agencies have decertified more than a dozen officers: Virginia State Police, Chesapeake Police Department and Henrico County Sheriff's Office. 
-
-Virginia State Police employs more officers than any other agency. It's no surprise that over the last two decades, it has decertified more officers than any other agency. 
-
-Chesapeake Police Department and Henrico County Sheriff's Office employ less than a quarter as many officers though, and each have decertified nearly as many officers as the entire state police since 2021. 
-
-
-```{r}
-present_agency_totals_cert <- present_agency_totals %>%
-  left_join(certified_directory, join_by(agency_name == place_of_employment)) %>% 
-  select(agency_name, num_decerts = decerts, certified_officers_jailors) %>% 
-  mutate(percentile_decert = round(rank(num_decerts, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
-  mutate(size_rank = rank(-certified_officers_jailors, ties.method = "min")) %>%
-    mutate(percentile_size = round(rank(certified_officers_jailors, ties.method = "min") / nrow(present_agency_totals) *100, digits = 2)) %>% 
-  mutate(decert_rank = rank(-num_decerts, ties.method = "min"))
-# what to do about NAs?
-
-
-
-
-  
 ```
 
-
-<iframe title="One of these things is not like the other " aria-label="Scatter Plot" id="datawrapper-chart-1LPo0" src="https://datawrapper.dwcdn.net/1LPo0/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="389" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
+### Visualization in the article 
+<iframe title="Despite small size, some departments have decertified several officers since law changed" aria-label="Scatter Plot" id="datawrapper-chart-1LPo0" src="https://datawrapper.dwcdn.net/1LPo0/6/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="546" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
 </script>
-
-::: {.callout-note}
-Meanwhile, two of the state's largest agencies, Loudoun County Sheriff's Office and Virginia Beach Police Department have just one and two decertifications, respectively. 
-
-Do we want to follow the thread of big agencies with no decertifications or just one or two?
-
-:::
 
 
 
 
 # What types of misconduct are most common?
+## The big change since 2021 is lying and falsifying information
+### Setences in the article 
+> Since the recent changes, the leading reasons for decertifications have been lying or falsifying information. For example, 14 of the 16 officers decertified from the Chesapeake Police were decertified for lying. All 10 officers in the Henrico Sheriff's Office were decertified for lying. 
 
-Since 2021, the leading reason for decertification is lying during an internal affairs investigation. Many of the other leading reasons also have to do with lying or dishonesty.
-
-
+- "...leading reasons for decertifications..." see data table below 
+- "... 14 of the 16 officers decertified from the Chesapeake Police were ..." and "All 10 officers in the Henrico Sheriff's Office..." see data table below
 
 ```{r}
-
+# Dataframe of grouped reasons for certifications 
 type <- present %>% 
   group_by(reason) %>% 
   summarize(decerts = n()) 
 
-
-citation <- present %>% 
-  mutate(citation = str_extract(reason, "^[^-]+-[^-]+")) %>% 
-  group_by(citation) %>%
-  summarize(num = n())
-
-type_top_three <-  present %>% 
-  mutate(year = year(fixed_date)) %>% 
-  filter(agency_name %in% c("Virginia State Police", "Chesapeake Police Department", "Henrico County Sheriff's Office")) %>% 
-  group_by(agency, reason) %>% 
-  summarize(n()) 
+# Decertifications at Chesapeake and Henrico as example 
+type_henrico_chesapeake <-  present %>% 
+  filter(agency_name %in% c("Chesapeake Police Department", "Henrico County Sheriff's Office")) 
 
 
-# Do you want Emma to go through and crosswalk the types to get a clear count on how many involve lying?
-#write.csv(type, "type_check.csv")
 
 ```
-
+## Data table of number of decertifications by decertification reason
 ```{r}
 #| output: true
 datatable(type, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
@@ -227,31 +311,40 @@ datatable(type, filter = 'top', class = 'cell-border stripe order-column', exten
                                 buttons = c('copy', 'csv', 'excel')
                             ))
 ```
-::: {.callout-note}
+## Data table of officer level decertifications for Chesapeake PD and Henrico SO 
+```{r}
+#| output: true
+datatable(type_henrico_chesapeake, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+          rownames = FALSE, 
 
-This trend seems like a direct throughline to the law change and may be explained more through Henrico and Chesapeake. Before 2021, Henrico had not decertified a single officer. Chesapeake Police Department decertified only two in the last two decades. What lead the agencies to spike to more than a dozen in the last few years?
-
-:::
-
+                            options = list(
+                                paging = TRUE,
+                                pageLength = 10,
+                                lengthMenu = c(5, 10, 25, 50),
+                                searching = TRUE,
+                                fixedColumns = TRUE,
+                                autoWidth = TRUE,
+                                ordering = TRUE,
+                                dom = 'tB',
+                                buttons = c('copy', 'csv', 'excel')
+                            ))
+```
 
 # What about reinstatements?
+## Reinstatements are also increasing
+### Setences in the article 
+> Reinstatements following appeals have gradually increased since the new law took effect, reaching a high in 2024. 
 
-Reinstatements have gradually increased as the number of decertifications increased, reaching a high in 2024.
+- "... gradually increased ..." see data table below
 
 ```{r}
-# By agency
-# No big trends in agencies, all just one except for Fairfax and Virginia State Police
-reinstated_agency <- reinstated %>% 
-  group_by(agency_name) %>% 
-  summarize(n())
-
-# By year
+# Dataframe of reinstatements by year
 reinstated_year <- reinstated %>% 
   mutate(year = year(recert_date)) %>% 
   group_by(year) %>% 
   summarize(number = n())
 ```
-
+## Data table of reinstatement totals by year
 ```{r}
 #| output: true
 datatable(reinstated_year, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',

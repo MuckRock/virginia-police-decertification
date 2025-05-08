@@ -1,16 +1,16 @@
-agency,crosswalk_correction
-Department of State Police,Virginia State Police
-Waverly Police Department,Waverly Police Department
-Chesapeake City Police Department,Chesapeake Police Department
-Lynchburg City Police Department,Lynchburg Police Department
-Salem City Police Department,Salem Police Department
-Roanoke Police Department,Roanoke City Police Department
-Richmond City Police Department,Richmond Police Department
-Washington Metro Area Transit Police Dept.,Washington Metro Area Transit Pd
-Norfolk City Police Department,Norfolk Police Department
-Chesterfield County Sheriff's Office,Chesterfield County Sheriff`s Office
-Goochland County Sheriff's Office,Goochland County Sheriff`s Office
-Virginia Port Authority Police Department,Virginia Port Authority Police Dept.
-Northampton County Sheriff's Office,Northampton County Sheriff`s Office
-Pittsylvania County Sheriff's Office,Pittsylvania County Sheriff`s Office
-Virginia Department of Wildlife Resources,Virginia Department Of Wildlife Resources
+agency,crosswalk_correction,emma_check,emma_notes
+Department of State Police,Virginia State Police,1,
+Waverly Police Department,Waverly Police Department,0,There was probably at one point a Waverly PD but it has since been replaced by Sussex County Sheriff's Office https://www.mapquest.com/us/virginia/waverly-police-357050083 
+Chesapeake City Police Department,Chesapeake Police Department,1,
+Lynchburg City Police Department,Lynchburg Police Department,1,
+Salem City Police Department,Salem Police Department,1,
+Roanoke Police Department,Roanoke City Police Department,1,
+Richmond City Police Department,Richmond Police Department,1,
+Washington Metro Area Transit Police Dept.,Washington Metro Area Transit Pd,1,
+Norfolk City Police Department,Norfolk Police Department,1,
+Chesterfield County Sheriff's Office,Chesterfield County Sheriff`s Office,1,
+Goochland County Sheriff's Office,Goochland County Sheriff`s Office,1,
+Virginia Port Authority Police Department,Virginia Port Authority Police Dept.,1,
+Northampton County Sheriff's Office,Northampton County Sheriff`s Office,1,
+Pittsylvania County Sheriff's Office,Pittsylvania County Sheriff`s Office,1,
+Virginia Department of Wildlife Resources,Virginia Department Of Wildlife Resources,1,

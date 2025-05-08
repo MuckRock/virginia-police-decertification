@@ -1,57 +1,61 @@
-agency,crosswalk_correction
-Albemarle- Charlottseville Regional Jail,Albemarle - Charlottesville Regional Jail
-Albermarle-Charlottesville Regional Jail,Albemarle - Charlottesville Regional Jail
-Alexandria County Sheriff's Office,Alexandria City Sheriff's Office
-Alexandria Sheriff's Office,Alexandria City Sheriff's Office
-Appomattox County Sheriff's Office,Appomattox County Sheriff`s Office
-Aquia Harbor Police Department,Aquia Harbour Police Department
-Arlington County Sheriff's Office,Arlington County Sheriff`s Office
-Botetourt County Sheriff's Office,Botetourt County Sheriff`s Office
-Chesterfield County Sheriff's Office,Chesterfield County Sheriff`s Office
-Chesterfield Police Department,Chesterfield County Police Department
-Dinwiddie County Sheriff's Office,Dinwiddie County Sheriff`s Office
-Essex County Sheriff's Office,Essex County Sheriff`s Office
-Fairfax City Police Dapertment,Fairfax City Police Department
-Faquier County Sheriff's Officer,Fauquier County Sheriff's Office
-Fauquier County Sheriff’s Office,Fauquier County Sheriff's Office
-Hamptin Roads Regional Jail,Hampton Roads Regional Jail
-Hamptom Roads Regional Jail,Hampton Roads Regional Jail
-Hampton Police Department,Hampton Police Division
-Hampton Roadss Regional Jail,Hampton Roads Regional Jail
-Henrico County Police Department,Henrico County Sheriff's Office
-Isle of Wight County Sheriff's Office,Isle Of Wight County Sheriff`s Office
-Lancaster County Sheriff's Office,Lancaster County Sheriff`s Office
-Longwood University Police Department & Drakes Branch Police Department,Longwood University Police Department
-Manassas Park Police Department,Manassas Park City Police Dept.
-Middlesex County Sheriff's Office,Middlesex County Sheriff`s Office
-New Kent Sheriff's Office,New Kent County Sheriff's Office
-Newport News Cheriff's Office,Newport News City Sheriff`s Office
-Newport News City Sheriff's Office,Newport News City Sheriff`s Office
-Newport News Sheriff's Office,Newport News City Sheriff`s Office
-Norfolk Sheriff's Office,Norfolk City Sheriff's Office
-Old Dominion University Police Department,Old Dominion University Police Dept.
-Petersburg Bureau of Police,Petersburg Police Department
-Piedmont Regional Jail,Piedmont Regional Jail Authority
-Piedmont Virginia Community College Police Department,Piedmont Virginia Community College Campus Pd
-Powhatan Sheriff's Office,Powhatan County Sheriff's Office
-Prince William County Sheriff's Office,Prince William County Sheriff`s Office
-Prince Williams County Police Department,Prince William County Police Department
-Purceville Police Department,Purcellville Police Department
-Radford City Police Department,Radford Police Department
-"Rappahannock, Shenandoah, Warren County Regional Jail","Rappahannock, Shenandoah, Warren Regional Jail"
-"Rappahanock, Shenandoah, Warren Regional Jail","Rappahannock, Shenandoah, Warren Regional Jail"
-Richmond City Police Department,Richmond Police Department
-Richmond County Sheirff's Office,Richmond County Sheriff's Office
-Shenandoah County Sheriff's Office,Shenandoah County Sheriff`s Office
-Southampton County Sheriff's Office,Southampton County Sheriff`s Office
-Spotsylvania County Sheriff's Office,Spotsylvania County Sheriff`s Office
-Virginia Alcoholic Beverage Control Authority Police Department,Virginia Alcoholic Beverage Control Pd
-Virginia Beach Sheriff's Office,Virginia Beach City Sheriff`s Office
-Virginia Commonwealth University Police Department,Virginia Commonwealth University Police Dept.
-Virginia Department of Motor Vehicles,Department Of Motor Vehicles
-Virginia Department of Motor Vehicles: Law Enforcement Division,Department Of Motor Vehicles
-Virginia Department of Wildlife Resources,Virginia Department Of Wildlife Resources
-Virginia Marine Resources Commision,Virginia Marine Resources Commission
-Washington Metro Area Transit Police Dept.,Washington Metro Area Transit Pd
-York- Poquoson Sheriff's Office,York - Poquoson Sheriff`s Office
-York-Poquoson Sheriff's Office,York - Poquoson Sheriff`s Office
+agency,crosswalk_correction,emma_check,emma_notes,dillon_notes
+Albemarle- Charlottseville Regional Jail,Albemarle - Charlottesville Regional Jail,1,,
+Albermarle-Charlottesville Regional Jail,Albemarle - Charlottesville Regional Jail,1,,
+Alexandria County Sheriff's Office,Alexandria City Sheriff's Office,1,,
+Alexandria Sheriff's Office,Alexandria City Sheriff's Office,1,,
+Appomattox County Sheriff's Office,Appomattox County Sheriff`s Office,1,"Why do all of the corrected verisons use ` instead of ' for ""sheriff's""?",
+Aquia Harbor Police Department,Aquia Harbour Police Department,1,,
+Arlington County Sheriff's Office,Arlington County Sheriff`s Office,1,,
+Botetourt County Sheriff's Office,Botetourt County Sheriff`s Office,1,,
+Chesterfield County Sheriff's Office,Chesterfield County Sheriff`s Office,1,,
+Chesterfield Police Department,Chesterfield County Police Department,1,,
+Dinwiddie County Sheriff's Office,Dinwiddie County Sheriff`s Office,1,,
+Essex County Sheriff's Office,Essex County Sheriff`s Office,1,,
+Fairfax City Police Dapertment,Fairfax City Police Department,1,,
+Faquier County Sheriff's Officer,Fauquier County Sheriff's Office,1,,
+Fauquier County Sheriff’s Office,Fauquier County Sheriff's Office,1,,
+Hamptin Roads Regional Jail,Hampton Roads Regional Jail,1,,
+Hamptom Roads Regional Jail,Hampton Roads Regional Jail,1,,
+Hampton Police Department,Hampton Police Division,1,,
+Hampton Roadss Regional Jail,Hampton Roads Regional Jail,1,,
+Henrico County Police Department,Henrico County Division Of Police,0,I'm guessing this is supposed to be the Henrico County Division Of Police,Fixed
+Isle of Wight County Sheriff's Office,Isle Of Wight County Sheriff`s Office,1,,
+Lancaster County Sheriff's Office,Lancaster County Sheriff`s Office,1,,
+Longwood University Police Department & Drakes Branch Police Department,Longwood University Police Department & Drakes Branch Police Department,0,These are two separate agenices: Longwood University Police Department and Drakes Branch Police Department,Undid correction here and kept it same as raw data
+Manassas Park Police Department,Manassas Park City Police Dept.,1,Not sure why this is abbreviated in the official version,
+Middlesex County Sheriff's Office,Middlesex County Sheriff`s Office,1,,
+New Kent Sheriff's Office,New Kent County Sheriff's Office,1,,
+Newport News Cheriff's Office,Newport News City Sheriff`s Office,,,
+Newport News City Sheriff's Office,Newport News City Sheriff`s Office,,,
+Newport News Sheriff's Office,Newport News City Sheriff`s Office,,,
+Norfolk Sheriff's Office,Norfolk City Sheriff's Office,,,
+Old Dominion University Police Department,Old Dominion University Police Dept.,1,,
+Petersburg Bureau of Police,Petersburg Police Department,0,"Let me know if there were any ""Petersburg Police Department"" entries in the spreadsheet. Otherwise the list is wrong, the correct name for this depatment is Petersburg Bureau of Police http://www.petersburg-va.org/176/Police ",
+Piedmont Regional Jail,Piedmont Regional Jail Authority,1,,
+Piedmont Virginia Community College Police Department,Piedmont Virginia Community College Campus Pd,1,,
+Powhatan Sheriff's Office,Powhatan County Sheriff's Office,1,,
+Prince William County Sheriff's Office,Prince William County Sheriff`s Office,1,,
+Prince Williams County Police Department,Prince William County Police Department,1,,
+Purceville Police Department,Purcellville Police Department,1,,
+Radford City Police Department,Radford Police Department,1,,
+"Rappahannock, Shenandoah, Warren County Regional Jail","Rappahannock, Shenandoah, Warren Regional Jail",1,,
+"Rappahanock, Shenandoah, Warren Regional Jail","Rappahannock, Shenandoah, Warren Regional Jail",1,,
+Richmond City Police Department,Richmond Police Department,1,,
+Richmond County Sheirff's Office,Richmond County Sheriff's Office,1,,
+Shenandoah County Sheriff's Office,Shenandoah County Sheriff`s Office,1,,
+Southampton County Sheriff's Office,Southampton County Sheriff`s Office,1,,
+Spotsylvania County Sheriff's Office,Spotsylvania County Sheriff`s Office,1,,
+Virginia Alcoholic Beverage Control Authority Police Department,Virginia Alcoholic Beverage Control Pd,1,,
+Virginia Beach Sheriff's Office,Virginia Beach City Sheriff`s Office,1,,
+Virginia Commonwealth University Police Department,Virginia Commonwealth University Police Dept.,1,,
+Virginia Department of Motor Vehicles,Department Of Motor Vehicles,1,,
+Virginia Department of Motor Vehicles: Law Enforcement Division,Department Of Motor Vehicles,1,,
+Virginia Department of Wildlife Resources,Virginia Department Of Wildlife Resources,1,,
+Virginia Marine Resources Commision,Virginia Marine Resources Commission,1,,
+Washington Metro Area Transit Police Dept.,Washington Metro Area Transit Pd,1,,
+York- Poquoson Sheriff's Office,York - Poquoson Sheriff`s Office,1,,
+York-Poquoson Sheriff's Office,York - Poquoson Sheriff`s Office,1,,
+"        
+Montgomery County Sheriff's Office",Montgomery County Sheriff`s Office,1,,
+Fauquier County Sheriff�s Office,"        
+Fauquier County Sheriff`s Office",1,,
