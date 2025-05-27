@@ -11,9 +11,9 @@ This work is part of MuckRock's larger [project to open up more police disciplin
 
 MuckRock and VCIJ obtained the database used to track officer decertifications from the Virginia Department of Criminal Justice Services through a public records request.
 
-The data, which also includes decertifications of jail officers, captures disciplinary actions from 1999 to early 2025. Each record includes the officer’s name, law enforcement agency, position at the agency, and the date and reason for decertification. The newsrooms also requested and obtained data on the number of certified officers as of March 2025 from the Department, as well as a list of all law enforcement agencies in the state. 
+The data, which also includes decertifications of jail officers, captures disciplinary actions from 1999 to early 2025. Each record includes the officer’s name, law enforcement agency, position at the agency, and the date and reason for decertification. 
 
-To compare rates of decertification among different agencies, we requested data from Virginia’s Training and Certification Electronic Records (TRACER) database on the total number of certified law enforcement and jail officers employed by each agency in March 2025.
+To compare rates of decertification among different agencies, we requested [data from Virginia’s Training and Certification Electronic Records (TRACER) database on the total number of certified law enforcement and jail officers](https://www.muckrock.com/foi/virginia-128/licensed-officers-and-total-employees-180642/) employed by each agency in March 2025. The newsrooms also requested [the data behind the directory of all law enforcement agencies in the state](www.muckrock.com/foi/virginia-128/criminal-justice-agency-directory-180620/). 
 
 These three datasets are the basis of this analysis and can be found in `data/raw`. The datasets are the cleaned and prepared for analysis in `etl` and analyzed in `analysis`. 
 
