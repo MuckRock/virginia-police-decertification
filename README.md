@@ -19,7 +19,7 @@ These three datasets are the basis of this analysis and can be found in `data/ra
 
 ## Caveats and Limitations
 
-Laws and policies governing police certification in Virginia have changed since 1999, affecting the number of decertifications. For example, prior to the reforms enacted in 2021, Virginia officers could only be decertified for specific drug or criminal offenses or for failing to complete required training. 
+Laws and policies governing police certification in Virginia have changed since 1999, affecting the number of decertifications. For example, prior to the reforms enacted in 2021, Virginia officers could only be decertified for specific drug or criminal offenses or for failing to complete required training. In 2020, reforms expanded the reasons an officer could be decertified. 
 
 The database includes decertifications before and after recent disciplinary reforms, as well as reinstatements and pending decertifications. We chose not to include pending decertifications in our analysis because pending cases may be in the process of an appeal. 
 
