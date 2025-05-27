@@ -23,6 +23,8 @@ Laws and policies governing police certification in Virginia have changed since 
 
 The database includes decertifications before and after recent disciplinary reforms, as well as reinstatements and pending decertifications. We chose not to include pending decertifications in our analysis because pending cases may be in the process of an appeal. 
 
+One decertification was recorded with a date in 2029 and likely a data input error. It was excluded from this analysis. 
+
 ## Technical Documentation
 ### General Notes
 
