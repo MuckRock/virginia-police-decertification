@@ -29,3 +29,6 @@ The database includes decertifications before and after recent disciplinary refo
 Much of the data seems to be manually entered into the spreadsheet, which introduced spelling errors to agency names and formatting errors in dates. In [`data/manual`](data/manual) agency names from decertifications are given a crosswalked and corrected name that matches the a name in DCJS' [criminal justice agency directory](data/raw/Criminal_Justice_Agency_Directory.xlsx). Dillon Bergin performed the crosswalk and reporter Emma Rose checked his work. 
 
 The script [`etl/01_clean_dates.R`](etl/01_clean_dates.R) cleans and converts the dates to a single format. 
+
+## Questions / Feedback
+Contact Dillon Bergin at dillon@muckrock.com. 
