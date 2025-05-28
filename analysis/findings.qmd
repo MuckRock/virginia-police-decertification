@@ -1,7 +1,7 @@
 ---
 title: "Findings and data bulletproofing"
 author: "Dillon Bergin"
-date: "5/7/2025"
+date: "5/28/2025"
 execute:
   output: false
   echo: false
@@ -138,15 +138,15 @@ datatable(certified_directory, filter = 'top', class = 'cell-border stripe order
 
 > 10: "... most agencies haven't decertified a single officer since the law changed."
 
-- "Most agencies..." ---> in data table below $398/512 = 0.77$ or about 77% and trend visualized in chart below (this chart will not be included in article)
+- "Most agencies..." ---> in data table below $263/373 = 0.705$ or about 70% and trend visualized in chart below (this chart will not be included in article)
 
-> 11: "Nearly 400 agencies have not decertified any officers."
+> 11: "More than 260 agencies have not decertified any officers."
 
-- 398 agencies have not decertified an officer. See table below. 
+- 263 agencies that have a certified officer as of March 2025 have not decertified an officer 
 
 > 12: "Of the agencies that have decertified officers, about half used the process just once."
 
-- 56 agencies decertified one officer, 61 decertified more than one; $56/(56+61) =  0.4786$ or 47%
+- 56 agencies decertified one officer, 61 decertified more than one; $56/115 =  0.48$ or 48%
 
 
 ```{r}
@@ -155,29 +155,45 @@ present_agency_totals <- present %>%
   group_by(agency_name) %>% 
   summarize(decerts = n())
 
+
+# 139 agencies don't have a certified officer, we'll exclude these later
+no_certified_officer <- certified_directory %>% 
+  filter(is.na(certified_officers_jailors))
+
+# Dataframe of all agencies that have and haven't had a decertification since 2021, excluding those that don't have a certified officer as of March 2025
+# Join to add decertifications column, NAs for zero decertifications 
+certified_agencies <- certified_directory %>%
+  filter(!is.na(certified_officers_jailors)) %>% 
+  left_join(present_agency_totals, join_by(place_of_employment == agency_name)) 
+
+
 # Dataframe of total number of decertifications at each agency that has decertified an officer before 2021
 prior_agency_totals <- prior %>% 
   group_by(agency_name) %>% 
   summarize(num = n())
 
-# Dataframe of agencies that haven't decertified an officer since 2021
-# Joins dataset of all law enforcement agencies with dataset of present decertifications 
-no_decertifications <- certified_directory %>% 
-  anti_join(present, join_by(place_of_employment == agency_name)) %>% 
-  select(agency_name = place_of_employment) %>% 
-  mutate(decerts = 0)
+extra_agencies <- present_agency_totals %>% 
+  anti_join(certified_agencies, join_by(agency_name == place_of_employment)) 
 
-# Dataframe of all agencies that have and haven't had a decertification since 2021
-all_agencies <- rbind(no_decertifications, present_agency_totals)
+# Dataframe of agencies that haven't decertified an officer   
+no_decertifications <- certified_agencies %>% 
+  filter(is.na(decerts)) 
 
 
+# 512 number of agencies in directory
+# 139 number of agencies without a certified officer 
+# 373 total agencies with at least one certified officer
+# 115 agencies have decertified since 2021
+# 263 no decertification 
+# 5 agencies that did not have a certified officer as of March 2025, but did show up in our decertifications list
+# ^ is the reason we have 263 with no decertification and not 258
   
 ```
 
 ## Histogram of agencies and decertifications 
 ```{r}
 #| output: true
-ggplot(all_agencies, aes(x=decerts)) +
+ggplot(certified_agencies, aes(x=decerts)) +
   geom_histogram(fill = "#fa8c00", boundary = 0) +
   labs(x = "Number of decertifications",
     y = "Number of agencies") +
@@ -188,8 +204,14 @@ ggplot(all_agencies, aes(x=decerts)) +
 ```
 
 ```{r}
+
+# Agencies with at least one certified officer 
+at_least_one_certified_agencies <- certified_directory %>%
+  filter(!is.na(certified_officers_jailors))
+
 # Dataframe of number of decertifications grouped by how many agencies decertified that many officers
-decert_bins <- all_agencies %>% 
+decert_bins <- present_agency_totals %>% 
+  full_join(at_least_one_certified_agencies, join_by(agency_name == place_of_employment)) %>% 
   group_by(decerts) %>% 
   rename(num_decerts = decerts) %>% 
   summarize(num_agencies = n())
@@ -199,12 +221,6 @@ greater_than_one_decert <- decert_bins %>%
   filter(num_decerts > 1)
 
 total_greater_than_one <- sum(greater_than_one_decert$num_decerts)
-
-# Checking which agencies aren't in directory but are in decertifications 
-# We have 513 agencies total instead of 512 because one decertification seems to combine two agencies 
-additional_agencies <- all_agencies %>% 
-  select(agency_name) %>% 
-  anti_join(certified_directory, join_by(agency_name == place_of_employment))
   
 ```
 
@@ -269,8 +285,8 @@ present_agency_totals_cert <- present_agency_totals %>%
 
 
 # Dataframe that combines decertifications with certified officers and compares rank, for all 513 agences, not just those that have decertified 
-all_agencies_totals <- all_agencies %>%
-  left_join(certified_directory, join_by(agency_name == place_of_employment)) %>% 
+certified_agencies_totals <- certified_agencies %>%
+  rename(agency_name = place_of_employment) %>% 
   select(agency_name, num_decerts = decerts, certified_officers_jailors) %>% 
   mutate(size_rank = rank(-certified_officers_jailors, ties.method = "min")) %>%
   mutate(decert_rank = rank(-num_decerts, ties.method = "min"))
@@ -293,7 +309,7 @@ write.csv(present_agency_totals_cert, "../data/processed/vis/all_agencies_total_
 ## Data table of number of decertifications and number of certified officers in each agency
 ```{r}
 #| output: true
-datatable(all_agencies_totals, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
+datatable(certified_agencies_totals, filter = 'top', class = 'cell-border stripe order-column', extensions = 'Buttons',
           rownames = FALSE, 
 
                             options = list(
